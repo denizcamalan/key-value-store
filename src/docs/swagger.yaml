@@ -1,0 +1,220 @@
+definitions:
+  model.Company:
+    properties:
+      name:
+        type: string
+      projectname:
+        type: string
+      sector:
+        type: string
+      technology:
+        type: string
+      year:
+        type: integer
+    required:
+    - name
+    - projectname
+    - sector
+    - technology
+    - year
+    type: object
+  model.Message:
+    properties:
+      message:
+        type: string
+    type: object
+  model.Workflow:
+    properties:
+      company:
+        $ref: '#/definitions/model.Company'
+      id:
+        type: string
+    required:
+    - id
+    type: object
+info:
+  contact: {}
+paths:
+  /keys:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Message'
+      summary: delete all model.Workflow item
+      tags:
+      - Workflow
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/model.Workflow'
+              type: array
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/model.Workflow'
+              type: array
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Message'
+      summary: get all items in the model.Workflow list
+      tags:
+      - Workflow
+    post:
+      consumes:
+      - application/json
+      description: get {object}
+      parameters:
+      - description: workflow
+        in: body
+        name: workflow
+        required: true
+        schema:
+          $ref: '#/definitions/model.Workflow'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Workflow'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Message'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.Workflow'
+      summary: create data workflow
+      tags:
+      - Workflow
+  /keys/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete workflow by ID
+      parameters:
+      - description: model.Workflow ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Message'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Message'
+      summary: delete a model.Workflow item by ID
+      tags:
+      - Workflow
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Workflow ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Workflow'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Message'
+      summary: show workflow by ID
+      tags:
+      - Workflow
+    head:
+      consumes:
+      - application/json
+      parameters:
+      - description: Workflow ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Workflow'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Message'
+      summary: check a model.Workflow item by ID
+      tags:
+      - Workflow
+    put:
+      consumes:
+      - application/json
+      description: update by json Workflow
+      parameters:
+      - description: model.Workflow ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Company
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/model.Company'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Workflow'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Message'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.Message'
+      summary: update Workflow by ID
+      tags:
+      - Workflow
+swagger: "2.0"

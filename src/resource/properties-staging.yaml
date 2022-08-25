@@ -1,0 +1,5 @@
+REDIS:
+  DSN: "localhost:6379"
+  MAX_ACTIVE: 50
+  MAX_IDLE: 1000
+PORT: "8080" 
