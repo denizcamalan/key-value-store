@@ -90,7 +90,7 @@ func CheckIfExist(c *gin.Context) {
 	workflow.ID = c.Param("id")
 
 	if !repository.CheckRedis(workflow.ID){
-		c.Header(workflow.ID,"there is no id "+`"`+workflow.ID+`"`)
+		c.Header("Message","there is no id "+`"`+workflow.ID+`"`)
 		c.Status(http.StatusNoContent)
 	}else{
 		c.Header(workflow.ID, "Accepted")
