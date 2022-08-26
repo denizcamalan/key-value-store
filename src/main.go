@@ -21,8 +21,7 @@ func init() {
 
 }
 func main() {
-	
-	defer configuration.NewDatabase().Close()
+
 
 	port := viper.GetString("PORT")
 

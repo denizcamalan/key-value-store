@@ -33,10 +33,11 @@ func GetRedis(id string) (string,error){
 
 func CheckRedis(id string) bool{
 	err := db.Get(id).Err()
+	//db.Exists(id).Err()
     if err == nil {
-        return false
+        return true
     }else {
-		return true	
+		return false	
 	}
 }
 

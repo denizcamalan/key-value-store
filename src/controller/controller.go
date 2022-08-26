@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -83,17 +82,19 @@ func GetDataById(c *gin.Context) {
 // @Produce json
 // @Tags Workflow
 // @Param id path string true "Workflow ID"
-// @Success 200 {object} model.Workflow
-// @Failure 204 {object} model.Message
+// @Success 204 string header
+// @Failure 202 string header
 // @Router /keys/{id} [head]
 func CheckIfExist(c *gin.Context) {
 	var workflow model.Workflow
 	workflow.ID = c.Param("id")
 
 	if !repository.CheckRedis(workflow.ID){
-		c.JSON(http.StatusNoContent, model.Message{Message: errors.New("there is not any key value").Error()})
+		c.Header(workflow.ID,"there is no id "+`"`+workflow.ID+`"`)
+		c.Status(http.StatusNoContent)
 	}else{
-		c.JSON(http.StatusOK, gin.H{"id" : workflow.ID })
+		c.Header(workflow.ID, "Accepted")
+		c.Status(http.StatusAccepted)
 	}	
 }
 

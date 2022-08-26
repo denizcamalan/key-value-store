@@ -172,14 +172,14 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "202":
+          description: Accepted
           schema:
-            $ref: '#/definitions/model.Workflow'
+            type: string
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/model.Message'
+            type: string
       summary: check a model.Workflow item by ID
       tags:
       - Workflow

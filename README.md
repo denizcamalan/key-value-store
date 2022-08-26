@@ -1,5 +1,9 @@
 # key-value-store
 
+This is an in-memory, key/value store application. Think of it as a dictionary with any number of keys, each of which has a value that can be set or retrieved. Used Redis as a store. 
+
+The application will use HTTP status codes to communicate the success or failure of an operation.
+
 ## Getting Started
 
 1. git clone https://github.com/denizcamalan/key-value-store.git
