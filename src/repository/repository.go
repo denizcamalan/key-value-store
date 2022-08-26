@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"log"
-	"time"
 
 	"github.com/denizcamalan/key-value-store/configuration"
 	"github.com/denizcamalan/key-value-store/model"
@@ -19,7 +18,7 @@ func SettoRedis(workflow model.Workflow) error{
 		return errors.New("marshall error")
 	}
 
-	err2 := db.Set(workflow.ID, bytevalue, time.Duration(time.Now().Second())).Err()
+	err2 := db.Set(workflow.ID, bytevalue, 0).Err()
 	if err2 != nil { return err }
 	
 	return nil
@@ -32,7 +31,7 @@ func GetRedis(id string) (string,error){
 	return val,nil
 }
 
-func CheckIfExist(id string) bool{
+func CheckRedis(id string) bool{
 	err := db.Get(id).Err()
     if err == nil {
         return false
@@ -57,7 +56,7 @@ func ListfromRedis() ([]model.Workflow, error){
 	var workflows []model.Workflow
 	var workflow  model.Workflow
 
-	ids:= GetAllKeys()
+	ids:= getAllKeys()
 	
 	for _,id := range ids{
 		if id != ""{
@@ -69,14 +68,17 @@ func ListfromRedis() ([]model.Workflow, error){
 			}
 		}else {
 			log.Println("nil id")
+			continue
 		}
 	}
 	return workflows,nil
 }
 
-func UpdateRedis(id string, company model.Workflow) error{
+func UpdateRedis(id string, company model.Company) error{
+	var workflow model.Workflow
+	workflow.Company = company
 
-	bytevalue, err := json.Marshal(company)
+	bytevalue, err := json.Marshal(workflow.Company)
 	if err !=nil {
 		return errors.New("marshall error")
 	}
@@ -89,7 +91,7 @@ func UpdateRedis(id string, company model.Workflow) error{
 
 func DeleteAll() error{
 
-	ids:= GetAllKeys()
+	ids:= getAllKeys()
 
 	for _,id := range ids{
 		if err := db.Del(id).Err(); err != nil {
@@ -100,7 +102,7 @@ func DeleteAll() error{
 }
 
 // get all created keys
-func GetAllKeys() (keys []string){
+func getAllKeys() (keys []string){
 	iter := db.Scan(0, "*", 0).Iterator()
 	for iter.Next() {
 		keys = append(keys, iter.Val())

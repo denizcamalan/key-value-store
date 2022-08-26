@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -40,6 +41,7 @@ func CreateData(c *gin.Context) {
 	if (model.Workflow{}) == workflow {
 		c.JSON(http.StatusNotFound, workflow)
 	} else {
+		fmt.Println(repository.ListfromRedis())
 		c.JSON(http.StatusOK, workflow)
 	}
 }
@@ -88,7 +90,7 @@ func CheckIfExist(c *gin.Context) {
 	var workflow model.Workflow
 	workflow.ID = c.Param("id")
 
-	if !repository.CheckIfExist(workflow.ID){
+	if !repository.CheckRedis(workflow.ID){
 		c.JSON(http.StatusNoContent, model.Message{Message: errors.New("there is not any key value").Error()})
 	}else{
 		c.JSON(http.StatusOK, gin.H{"id" : workflow.ID })
@@ -102,7 +104,7 @@ func CheckIfExist(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param id path string true "model.Workflow ID"
-// @Param company body 	 model.Workflow true "Company"
+// @Param company body 	 model.Company true "Company"
 // @Success 200 {object} model.Workflow
 // @Failure 400 {object} model.Message
 // @Failure 400 {object} model.Message
@@ -118,10 +120,10 @@ func UpdateData(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, model.Message{Message: err.Error()})
 		return
 	} else {
-		json.Unmarshal(body, &workflow)
+		json.Unmarshal(body, &workflow.Company)
 	}
 
-	if err := repository.UpdateRedis(workflow.ID,workflow); err != nil {
+	if err := repository.UpdateRedis(workflow.ID,workflow.Company); err != nil {
 		c.JSON(http.StatusBadRequest, model.Message{Message: err.Error()})
 		return
 	}
@@ -168,18 +170,18 @@ func DeleteDataByID(c *gin.Context) {
 // @Failure 400 {array} []model.Workflow
 // @Router /keys [get]
 func GetAll(c *gin.Context) {
-	var workflow []model.Workflow
+	var workflows []model.Workflow
 
-	workflow, err:=repository.ListfromRedis()
+	workflows, err:=repository.ListfromRedis()
 	if err != nil{
 		c.JSON(http.StatusInternalServerError,model.Message{Message: err.Error()})
 		return
 	}
-	if workflow == nil {
-		c.JSON(http.StatusBadRequest, workflow)
+	if workflows == nil {
+		c.JSON(http.StatusBadRequest, workflows)
 		return
 	}else {
-		c.JSON(http.StatusOK, workflow)	
+		c.JSON(http.StatusOK, workflows)	
 		return
 	}
 }

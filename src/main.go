@@ -22,7 +22,7 @@ func init() {
 }
 func main() {
 	
-	//defer configuration.NewDatabase().Close()
+	defer configuration.NewDatabase().Close()
 
 	port := viper.GetString("PORT")
 
@@ -40,4 +40,5 @@ func main() {
 	router.GET("/swagger/*any", swgGin.WrapHandler(swgFiles.Handler, url))
 
 	log.Fatal(router.Run(":" + port))
+
 }

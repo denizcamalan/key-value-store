@@ -1,4 +1,4 @@
-# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+# # Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
 
 version: '3'
 
@@ -9,9 +9,9 @@ services:
   app:
     # Configuration for building the docker image for the service
     build:
-      context: ./src # Use an image built from the specified dockerfile in the current directory.
+      context: ./src 
       dockerfile: Dockerfile
-      # restart: unless-stopped
+    restart: unless-stopped
     depends_on: 
       - redis # This service depends on redis. Start that first.
     ports:
@@ -21,7 +21,7 @@ services:
 
   # Redis Service   
   redis:
-    image: "redis:6.2-alpine" # Use a public Redis image to build the redis service    
+    image: "redis:6.2-alpine" 
     restart: unless-stopped
     ports:
       - '6379:6379'
@@ -30,22 +30,3 @@ services:
 
 networks:
   backend:    
-
-
-# version: "3.9"
-# services:
-#   frontend:
-#     ...
-#   backend:
-#     build:
-#       context: ./backend
-#     ports:
-#       - "8080:8080"
-#     environment:
-#       - NODE_ENV=production
-#     env_file:
-#       - ./backend/.env
-#   redis:
-#     image: "redis"
-#     ports:
-#       - "6379:6379"
