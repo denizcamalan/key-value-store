@@ -42,7 +42,6 @@ go test ./...
   |        +--+ controller
   |        |  |
   |        |  +--+ controller.go
-  |        |     + controller_test.go
   |        +--+ docs
   |        |  |
   |        |  +--+ docs.go
