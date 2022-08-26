@@ -25,7 +25,7 @@ func SettoRedis(workflow model.Workflow) error{
 	return nil
 }
 
-func GetfromRedis(id string) (string,error){
+func GetRedis(id string) (string,error){
 	val, err := db.Get(id).Result(); 
 	if err != nil { return "",err }
 
@@ -39,19 +39,6 @@ func CheckIfExist(id string) bool{
     }else {
 		return true	
 	}
-}
-
-func SetByIdRedis(id string, company model.Company) error{
-
-	bytevalue, err := json.Marshal(company)
-	if err !=nil {
-		return errors.New("marshall error")
-	}
-
-	if err := db.Set(id, bytevalue, time.Duration(time.Now().Second())).Err(); err != nil {
-		return err
-	}
-	return nil
 }
 
 func DeleteKey(key string) error{
@@ -74,7 +61,7 @@ func ListfromRedis() ([]model.Workflow, error){
 	
 	for _,id := range ids{
 		if id != ""{
-			if strData, err := GetfromRedis(id); err != nil { 
+			if strData, err := GetRedis(id); err != nil { 
 				return nil,errors.New("getfromRedis no value") 
 			}else {
 				json.Unmarshal([]byte(strData),&workflow)
@@ -87,7 +74,7 @@ func ListfromRedis() ([]model.Workflow, error){
 	return workflows,nil
 }
 
-func UpdateRedis(id string, company model.Company) error{
+func UpdateRedis(id string, company model.Workflow) error{
 
 	bytevalue, err := json.Marshal(company)
 	if err !=nil {

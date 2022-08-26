@@ -14,14 +14,10 @@ package model
 // }
 
 type Workflow struct{
-	ID 			string		`json:"id" binding:"required"` 
-	Company 	Company
-}
-
-type Company struct{
-	Name		string		`json:"name" binding:"required"`
-	Sector		string		`json:"sector" binding:"required"`
-	Project		string		`json:"projectname" binding:"required"`
-	Technology	string		`json:"technology" binding:"required"`
-	Year		int 		`json:"year" binding:"required"`
+	ID 				string		`json:"id" binding:"required"` 
+	CompanyName 	string		`json:"name" binding:"required"`
+	Sector			string		`json:"sector" binding:"required"`
+	Project			string		`json:"projectname" binding:"required"`
+	Technology		string		`json:"technology" binding:"required"`
+	Year			int 		`json:"year" binding:"required"`
 }

@@ -1,7 +1,51 @@
-version: "3.9"
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+
+version: '3'
+
+# Define services
 services:
-  redis:
-    image: redis:6.2.7
-    container_name: redis
+
+  # App Service
+  app:
+    # Configuration for building the docker image for the service
+    build:
+      context: ./src # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+      # restart: unless-stopped
+    depends_on: 
+      - redis # This service depends on redis. Start that first.
     ports:
-      - 6379:6379
+      - "8080:8080"
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+
+  # Redis Service   
+  redis:
+    image: "redis:6.2-alpine" # Use a public Redis image to build the redis service    
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    networks:
+      - backend
+
+networks:
+  backend:    
+
+
+# version: "3.9"
+# services:
+#   frontend:
+#     ...
+#   backend:
+#     build:
+#       context: ./backend
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       - NODE_ENV=production
+#     env_file:
+#       - ./backend/.env
+#   redis:
+#     image: "redis"
+#     ports:
+#       - "6379:6379"

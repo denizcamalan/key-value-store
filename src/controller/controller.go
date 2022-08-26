@@ -60,7 +60,7 @@ func GetDataById(c *gin.Context) {
 
 	workflow.ID = c.Param("id")
 
-	strData, err := repository.GetfromRedis(workflow.ID)
+	strData, err := repository.GetRedis(workflow.ID)
 	if  err != nil {
 		c.JSON(http.StatusNoContent, model.Message{Message: err.Error()})
 		return
@@ -102,7 +102,7 @@ func CheckIfExist(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param id path string true "model.Workflow ID"
-// @Param company body model.Company true "Company"
+// @Param company body 	 model.Workflow true "Company"
 // @Success 200 {object} model.Workflow
 // @Failure 400 {object} model.Message
 // @Failure 400 {object} model.Message
@@ -118,10 +118,10 @@ func UpdateData(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, model.Message{Message: err.Error()})
 		return
 	} else {
-		json.Unmarshal(body, &workflow.Company)
+		json.Unmarshal(body, &workflow)
 	}
 
-	if err := repository.UpdateRedis(workflow.ID,workflow.Company); err != nil {
+	if err := repository.UpdateRedis(workflow.ID,workflow); err != nil {
 		c.JSON(http.StatusBadRequest, model.Message{Message: err.Error()})
 		return
 	}
