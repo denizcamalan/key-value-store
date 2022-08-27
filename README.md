@@ -27,7 +27,7 @@ go test ./...
 ```
   + your_gopath/
   |
-  +--+ src/github.com/moemoe89
+  +--+ src/github.com/denizcamalan
   |  |
   |  +--+ key-value-store/
   |     |
