@@ -22,15 +22,18 @@ go test ./...
 ```
 ![Screen Shot 2022-08-26 at 12 43 17 PM](https://user-images.githubusercontent.com/79871039/186877246-238ddaf8-4482-43b7-b767-472aa5d69d4f.png)
 
+# Technologies in use
+
+  Go Programming Language, Redis, Docker, Swagger Documantation
+
 ## Directory structure
 
 ```
-  + your_gopath/
-  |
-  +--+ src/github.com/denizcamalan
-  |  |
+
   |  +--+ key-value-store/
   |     |
+  |     + docker-compese.yml
+        |
   |     +--+ src
   |        +--+ main.go
   |        +--+ configuration
@@ -63,13 +66,5 @@ go test ./...
   |           |
   |           +--+ properties-prod.yaml
   |              + properties-prod-staging.yaml
-  |        + docker-compese.yml
-  |        
-  +--+ bin/
-  |  |
-  |  +-- ... executable file
-  |
-  +--+ pkg/
-     |
-     +-- ... all dependency_library required
+
 ```
