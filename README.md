@@ -2,7 +2,7 @@
 
 This is an in-memory, key/value store application. Think of it as a dictionary with any number of keys, each of which has a value that can be set or retrieved. Used Redis as a store. 
 
-The application will use HTTP status codes to communicate the success or failure of an operation.
+The application is used HTTP status codes to communicate the success or failure of an operation.
 
 ## Getting Started
 
